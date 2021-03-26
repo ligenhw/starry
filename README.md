@@ -7,9 +7,10 @@
 * NginxAccessLogEtlJob
 
 source : kafka
+
 sink: es
 
-完整流程
+数据流程
 http-client => nginx => rsyslog => kafka => flink job => es => grafana
 
 
