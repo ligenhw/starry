@@ -13,6 +13,12 @@ sink: es
 数据流程
 http-client => nginx => rsyslog => kafka => flink job => es => grafana
 
+* EvtEtlJob
+
+解析 request中的query参数
+
+
+
 
 
 
