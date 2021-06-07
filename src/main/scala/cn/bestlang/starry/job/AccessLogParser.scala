@@ -8,10 +8,11 @@ import org.slf4j.LoggerFactory
 
 import java.time.format.DateTimeFormatter
 import java.time.{Instant, LocalDateTime, ZoneOffset}
-import java.util.Locale
+import java.util.{Date, Locale}
 import java.util.regex.Pattern
-
 import AccessLogParser._
+
+import java.sql.Timestamp
 
 class AccessLogParser extends ScalarFunction {
 

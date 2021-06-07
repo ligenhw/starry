@@ -58,7 +58,6 @@ class EvtEtlJobTest {
         |   SELECT EvtParser(request) as t FROM parsed_nginx_log
         |   )
         |""".stripMargin).await()
-
   }
 
 }
