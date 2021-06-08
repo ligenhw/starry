@@ -5,7 +5,7 @@ import org.apache.flink.streaming.api.scala.StreamExecutionEnvironment
 import org.apache.flink.table.api.bridge.scala.StreamTableEnvironment
 import org.apache.flink.table.api.{EnvironmentSettings, TableEnvironment}
 
-object NginxAccessLogEtlJob {
+object NginxAccessLogEtlToEsJob {
 
   def main(args: Array[String]): Unit = {
     val params = ParameterTool.fromArgs(args)
@@ -16,6 +16,8 @@ object NginxAccessLogEtlJob {
     val groupId = params.get("kafka.group.id")
     val esHost = params.get("es.host")
     val esIndex = params.get("es.index")
+    val esUsername = params.get("es.username")
+    val esPassword = params.get("es.password")
     val checkpointingEnabled = params.has("checkpointing")
     if (checkpointingEnabled) env.enableCheckpointing(10000)
 
@@ -53,9 +55,11 @@ object NginxAccessLogEtlJob {
       ) WITH (
         'connector' = 'elasticsearch-7',
         'hosts' = '%1$s',
+        'username' = '%3$s',
+        'password' = '%4$s',
         'index' = '%2$s-{time_local|yyyy-MM-dd}'
       )
-    """.stripMargin format(esHost, esIndex)
+    """.stripMargin format(esHost, esIndex, esUsername, esPassword)
     )
 
     // 运行一个 INSERT 语句，将源表的数据输出到结果表中

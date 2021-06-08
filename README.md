@@ -4,18 +4,34 @@
 
 实时流计算任务, 基于flink
 
-* NginxAccessLogEtlJob
-
-source : kafka
-
-sink: es
-
 数据流程
 http-client => nginx => rsyslog => kafka => flink job => es => grafana
 
-* EvtEtlJob
+## 任务列表
 
-解析 request中的query参数
+* NginxAccessLogEtlToEsJob
+
+解析 nginx access log，写入es
+
+source : kafka
+sink: es
+
+* NginxAccessLogCollectEvtEtlToKafkaJob
+
+解析 nginx access log
+解析 request 中的query参数
+写入kafka
+
+source : kafka
+sink: kafka
+
+* CollectEvtEtlToEsJob
+
+读取 collect-evt kafka
+写入es
+
+source : kafka
+sink: es
 
 
 

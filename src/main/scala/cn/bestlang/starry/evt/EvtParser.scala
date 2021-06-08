@@ -32,7 +32,10 @@ class EvtParser extends ScalarFunction {
 
       val paramArray = query.split('&')
 
-      paramArray.foreach(param => paramMap += (param.split("=")(0) -> param.split("=")(1)))
+      paramArray.foreach(param => {
+        val value = if (param.split("=").size > 1) param.split("=")(1) else ""
+        paramMap += (param.split("=")(0) -> value)
+      })
       evt = EvtParser.createCaseClass[EvtModel](paramMap)
     }
 

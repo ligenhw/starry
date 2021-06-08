@@ -3,7 +3,7 @@ package cn.bestlang.starry.job
 import org.apache.flink.table.api.{EnvironmentSettings, TableEnvironment}
 import org.junit.jupiter.api.Test
 
-class NginxAccessLogEtlJobTest {
+class NginxAccessLogEtlToEsJobTest {
 
   @Test
   def main(): Unit = {
