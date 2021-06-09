@@ -33,6 +33,15 @@ sink: kafka
 source : kafka
 sink: es
 
+* CollectEvt1mPvJob
+
+分钟pv聚合数据
+
+读取 collect-evt kafka
+写入es
+
+source : kafka
+sink: es
 
 
 
