@@ -13,6 +13,8 @@ class EvtEtlJobTest {
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     val tEnv = StreamTableEnvironment.create(env, settings)
 
+    val nginx_parsed_log = getClass.getClassLoader.getResource("nginx-parsed.log").getFile
+
     tEnv.executeSql(
       """
         | CREATE TABLE parsed_nginx_log (
@@ -27,10 +29,10 @@ class EvtEtlJobTest {
         |   http_x_forwarded_for STRING
         | ) WITH (
         |   'connector' = 'filesystem',
-        |   'path' = 'src/test/resources/nginx-parsed.log',
+        |   'path' = '%1$s',
         |   'format' = 'json'
         | )
-        |""".stripMargin).getTableSchema
+        |""".stripMargin format nginx_parsed_log)
 
     tEnv.executeSql(
       """

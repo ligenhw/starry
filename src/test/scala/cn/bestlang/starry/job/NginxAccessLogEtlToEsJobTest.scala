@@ -22,7 +22,7 @@ class NginxAccessLogEtlToEsJobTest {
         'path' = '%1$s',
         'format' = 'raw'
       )
-      """.stripMargin format(nginx_access_log)
+      """.stripMargin format nginx_access_log
     )
 
     tEnv.executeSql(
