@@ -1,6 +1,7 @@
 package cn.bestlang.starry.job
 
 import org.apache.flink.table.api.{EnvironmentSettings, TableEnvironment}
+import org.apache.flink.table.shaded.org.reflections.vfs.CommonsVfs2UrlType.File
 import org.junit.jupiter.api.Test
 
 class NginxAccessLogEtlToEsJobTest {
@@ -11,15 +12,17 @@ class NginxAccessLogEtlToEsJobTest {
     val settings = EnvironmentSettings.newInstance.build
     val tEnv = TableEnvironment.create(settings)
 
+    val nginx_access_log = getClass.getClassLoader.getResource("nginx-access.log").getFile
+
     tEnv.executeSql("""
       CREATE TABLE nginx_log (
         log STRING
       ) WITH (
         'connector' = 'filesystem',
-        'path' = 'src/test/resources/nginx-access.log',
+        'path' = '%1$s',
         'format' = 'raw'
       )
-      """.stripMargin
+      """.stripMargin format(nginx_access_log)
     )
 
     tEnv.executeSql(
