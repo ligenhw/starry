@@ -6,13 +6,20 @@ import org.junit.jupiter.api.Test
 
 class CollectEvt1mPvJobTest {
 
+  def readFromResource(file: String): String = {
+    val source = s"${getClass.getResource("/").getFile}../../src/test/resources/$file"
+    source
+  }
+
   @Test
   def testMain(): Unit = {
     val settings = EnvironmentSettings.newInstance.useBlinkPlanner().inStreamingMode().build
     val tEnv = TableEnvironment.create(settings)
 
-    val collect_evt = getClass.getClassLoader.getResource("collect-evt.log").getFile
+    val filename = "collect-evt.log"
 
+    val collect_evt = readFromResource(filename)
+    println(s"CollectEvt1mPvJobTest collect_evt : $collect_evt")
 
     tEnv.executeSql(
       """
