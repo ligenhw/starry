@@ -1,7 +1,6 @@
 package cn.bestlang.starry.job
 
 import org.apache.flink.table.api.{EnvironmentSettings, TableEnvironment}
-import org.apache.flink.table.shaded.org.reflections.vfs.CommonsVfs2UrlType.File
 import org.junit.jupiter.api.Test
 
 class NginxAccessLogEtlToEsJobTest {

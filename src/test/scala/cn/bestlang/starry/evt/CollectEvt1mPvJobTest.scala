@@ -59,7 +59,7 @@ class CollectEvt1mPvJobTest {
         |""".stripMargin).execute().print()
 
 
-    testEsSink(tEnv)
+    testPrintSink(tEnv)
   }
 
   def testEsSink(tEnv: TableEnvironment): Unit = {
@@ -84,6 +84,40 @@ class CollectEvt1mPvJobTest {
         |   'index' = '%2$s-{wStart|yyyy-MM-dd}'
         | )
         |""".stripMargin format(esHost, esIndex, esUsername, esPassword)
+    )
+
+    // 注册函数
+    tEnv.createTemporarySystemFunction("TO_BIGINT", classOf[ToBigInt])
+
+    tEnv.executeSql(
+      """
+        |INSERT INTO evt_1m_pv
+        |   SELECT
+        |     TUMBLE_START(time_ltz, INTERVAL '1' MINUTE) AS wStart,
+        |     app,
+        |     url,
+        |     COUNT(*) AS `count`,
+        |     TO_BIGINT(TUMBLE_START(time_ltz, INTERVAL '1' MINUTE)) AS ts
+        |   FROM collect_evt
+        |     WHERE evt = 'pv'
+        |     GROUP BY TUMBLE(time_ltz, INTERVAL '1' MINUTE), app, url
+        |""".stripMargin).await()
+  }
+
+  def testPrintSink(tEnv: TableEnvironment): Unit = {
+
+    tEnv.executeSql(
+      """
+        | CREATE TABLE evt_1m_pv (
+        |   wStart TIMESTAMP(3),
+        |   app STRING,
+        |   url STRING,
+        |   `count` BIGINT,
+        |   ts BIGINT
+        | ) WITH (
+        |   'connector' = 'print'
+        | )
+        |""".stripMargin
     )
 
     // 注册函数
