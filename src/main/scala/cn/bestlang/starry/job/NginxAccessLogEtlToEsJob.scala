@@ -18,8 +18,6 @@ object NginxAccessLogEtlToEsJob {
     val esIndex = params.get("es.index")
     val esUsername = params.get("es.username")
     val esPassword = params.get("es.password")
-    val checkpointingEnabled = params.has("checkpointing")
-    if (checkpointingEnabled) env.enableCheckpointing(10000)
 
     val settings = EnvironmentSettings.newInstance.build
     val tEnv = StreamTableEnvironment.create(env, settings)

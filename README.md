@@ -43,7 +43,10 @@ sink: es
 source : kafka
 sink: es
 
+## flink配置
 
+开启 checkpointing
+execution.checkpointing.interval: 1min
 
 
 
