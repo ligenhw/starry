@@ -20,8 +20,6 @@ object CollectEvt1mPvJob {
     val esIndex = params.get("es.index")
     val esUsername = params.get("es.username")
     val esPassword = params.get("es.password")
-    val checkpointingEnabled = params.has("checkpointing")
-    if (checkpointingEnabled) env.enableCheckpointing(10000)
 
     val settings = EnvironmentSettings.newInstance.build
     val tEnv = StreamTableEnvironment.create(env, settings)
@@ -46,6 +44,7 @@ object CollectEvt1mPvJob {
         |   'topic' = '%1$s',
         |   'properties.bootstrap.servers' = '%2$s',
         |   'properties.group.id' = '%3$s',
+        |   'properties.auto.offset.reset' = 'earliest',
         |   'format' = 'json'
         | )
         |""".stripMargin format(topic, bootStrapServers, groupId))

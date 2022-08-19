@@ -11,7 +11,7 @@ class NginxAccessLogEtlToEsJobTest {
     val settings = EnvironmentSettings.newInstance.build
     val tEnv = TableEnvironment.create(settings)
 
-    val nginx_access_log = getClass.getClassLoader.getResource("nginx-access.log").getFile
+    val nginx_access_log = getClass.getResource("/nginx-access.log").getFile
 
     tEnv.executeSql("""
       CREATE TABLE nginx_log (

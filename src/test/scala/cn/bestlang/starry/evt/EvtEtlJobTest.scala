@@ -9,7 +9,7 @@ class EvtEtlJobTest {
 
   @Test
   def testMain(): Unit = {
-    val settings = EnvironmentSettings.newInstance.useBlinkPlanner().inStreamingMode().build
+    val settings = EnvironmentSettings.newInstance.inStreamingMode().build
     val env = StreamExecutionEnvironment.getExecutionEnvironment
     val tEnv = StreamTableEnvironment.create(env, settings)
 

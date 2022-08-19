@@ -13,7 +13,7 @@ class CollectEvt1mPvJobTest {
 
   @Test
   def testMain(): Unit = {
-    val settings = EnvironmentSettings.newInstance.useBlinkPlanner().inStreamingMode().build
+    val settings = EnvironmentSettings.newInstance.inStreamingMode().build
     val tEnv = TableEnvironment.create(settings)
 
     val filename = "collect-evt.log"
@@ -35,7 +35,9 @@ class CollectEvt1mPvJobTest {
         | ) WITH (
         |   'connector' = 'filesystem',
         |   'path' = '%1$s',
-        |   'format' = 'json'
+        |   'format' = 'json',
+        |   'json.fail-on-missing-field' = 'false',
+        |   'json.ignore-parse-errors' = 'true'
         | )
         |""".stripMargin format collect_evt)
 

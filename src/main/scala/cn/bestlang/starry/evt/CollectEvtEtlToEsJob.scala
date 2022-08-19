@@ -20,9 +20,6 @@ object CollectEvtEtlToEsJob {
     val esUsername = params.get("es.username")
     val esPassword = params.get("es.password")
 
-    val checkpointingEnabled = params.has("checkpointing")
-    if (checkpointingEnabled) env.enableCheckpointing(10000)
-
     val settings = EnvironmentSettings.newInstance.build
     val tEnv = StreamTableEnvironment.create(env, settings)
 
@@ -75,7 +72,9 @@ object CollectEvtEtlToEsJob {
         |     url,
         |     action,
         |     TO_TIMESTAMP(FROM_UNIXTIME(CAST (ts AS BIGINT) / 1000, 'yyyy-MM-dd HH:mm:ss')) log_ts
-        |     FROM collect_evt
+        |     FROM (
+        |         SELECT evt, app, uid, ts, url, action FROM collect_evt WHERE ts <> ''
+        |     )
         |""".stripMargin).await()
 
   }

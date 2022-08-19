@@ -1,6 +1,6 @@
 package cn.bestlang.starry.job
 
-import cn.bestlang.starry.job.AccessLogParser.log
+import cn.bestlang.starry.job.AccessLogParser._
 import org.apache.flink.table.annotation.DataTypeHint
 import org.apache.flink.table.functions.ScalarFunction
 import org.apache.flink.types.Row
@@ -8,11 +8,8 @@ import org.slf4j.LoggerFactory
 
 import java.time.format.DateTimeFormatter
 import java.time.{Instant, LocalDateTime, ZoneOffset}
-import java.util.{Date, Locale}
+import java.util.Locale
 import java.util.regex.Pattern
-import AccessLogParser._
-
-import java.sql.Timestamp
 
 class AccessLogParser extends ScalarFunction {
 

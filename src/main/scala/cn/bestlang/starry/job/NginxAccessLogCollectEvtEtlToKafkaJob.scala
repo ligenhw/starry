@@ -17,8 +17,6 @@ object NginxAccessLogCollectEvtEtlToKafkaJob {
     val groupId = params.get("kafka.group.id")
     val sinkTopic = params.get("sink.kafka.topic")
     val sinkBootStrapServers = params.get("sink.kafka.bootstrap.servers")
-    val checkpointingEnabled = params.has("checkpointing")
-    if (checkpointingEnabled) env.enableCheckpointing(10000)
 
     val settings = EnvironmentSettings.newInstance.build
     val tEnv = StreamTableEnvironment.create(env, settings)
